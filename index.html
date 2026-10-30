@@ -8,6 +8,8 @@
   <title>ALTEA — Sprint Manager</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.dataset.theme = localStorage.getItem("altea-theme-v1") === "light" ? "light" : "dark";</script>
+  <link rel="stylesheet" href="dark-theme.css">
 </head>
 <body>
   <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -88,6 +90,7 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="tasks-data.js" defer></script>
+  <script src="enhancements.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>
