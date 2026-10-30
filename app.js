@@ -244,7 +244,7 @@
     if (ok) toast(`#${code} movida a ${prettyStatus(status)} ✓`);
   }
   function openConnect() {
-    const conn=state.connection||{url:'',api:'',board:'altea-sprint-1',key:''};
+    const conn=state.connection||{url:'',api:'sb_publishable_Maii1YIdc_FkpvkGfkcpBg_JL1AMGAg',board:'altea-sprint-1',key:''};
     $('supabaseUrl').value=conn.url||''; $('supabaseKey').value=conn.api||'sb_publishable_Maii1YIdc_FkpvkGfkcpBg_JL1AMGAg';
     $('boardIdInput').value=conn.board||'altea-sprint-1'; $('boardSecretInput').value=conn.key||'';
     $('yourNameInput').value=state.actor;
