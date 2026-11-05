@@ -33,7 +33,7 @@
   const state = {
     tasks: initialLocal(), mode: 'demo', online: false, connection: restoreConnection(),
     actor: localStorage.getItem(STORAGE_NAME) || '',
-    view: 'board', query: '', module: '', owner: '', sprint: '2', editingCode: null,
+    view: 'board', query: '', module: '', owner: '', sprint: 'all', editingCode: null,
     saving: false, polling: false, dragCode: null, noticeDismissed: false
   };
   let toastTimeout;
