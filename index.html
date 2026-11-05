@@ -39,11 +39,11 @@
         <button class="nav-item" id="navTeam" type="button"><svg><use href="#i-people"/></svg> Equipo</button>
       </nav>
       <div class="side-panel">
-        <p class="side-panel-title">SPRINT ACTUAL <span class="side-panel-badge">01</span></p>
-        <strong>Primera entrega</strong>
-        <p>Configuración, servidor y primeras pantallas.</p>
+        <p class="side-panel-title">SPRINT ACTUAL <span class="side-panel-badge">02</span></p>
+        <strong>Segona entrega</strong>
+        <p>Base de dades, migració, mapa i entrades.</p>
         <div class="side-progress-rail"><div id="sideProgress" style="width:0%"></div></div>
-        <small id="sideCount">0 de 15 tareas</small>
+        <small id="sideCount">0 de 5 tareas</small>
       </div>
       <div class="sidebar-bottom">
         <span class="help-bubble">✳</span><div><strong>Hecho para el equipo</strong><p>Un sitio para tenerlo todo claro.</p></div>
@@ -52,29 +52,29 @@
 
     <main class="main-content" id="tablero">
       <header class="topbar">
-        <div class="breadcrumbs"><span>Workspace</span><svg><use href="#i-chev"/></svg><strong>ALTEA / Sprint 01</strong></div>
+        <div class="breadcrumbs"><span>Workspace</span><svg><use href="#i-chev"/></svg><strong>ALTEA / Sprint 02</strong></div>
         <div class="top-actions"><div class="connection-badge" id="connectionBadge"><span class="connection-dot"></span><span id="connectionText">Modo demostración</span></div><div class="header-separator"></div><button class="icon-button" id="refreshButton" title="Actualizar tablero" aria-label="Actualizar tablero"><svg><use href="#i-refresh"/></svg></button><button class="avatar-button" id="profileButton" title="Cambiar tu nombre" aria-label="Cambiar tu nombre">T</button></div>
       </header>
       <div class="workspace">
         <div class="page-head"><div><div class="eyebrow"><span class="eyebrow-line"></span> PROYECTO DE EQUIPO <span class="eyebrow-year">/ 2026</span></div><h1>Organizamos ideas.<br><span>Entregamos resultados.</span></h1><p>Todas las tareas del sprint, en un mismo lugar. Sin perder el hilo.</p></div><div class="page-head-right"><div class="team-avatars" id="teamAvatars"><span class="team-avatar">A</span></div><div class="team-text"><strong id="teamCount">Tu equipo</strong><small>Trabajando en ALTEA</small></div></div></div>
 
         <section class="hero" aria-label="Resumen del sprint">
-          <div class="hero-main"><div class="hero-badge"><svg><use href="#i-spark"/></svg> SPRINT 01 · EN MARCHA</div><h2>De la idea a<br><em>la acción.</em></h2><p>Cada pequeño avance cuenta. ¡Vamos a por ello!</p><div class="hero-line-art hero-line-one"></div><div class="hero-line-art hero-line-two"></div></div>
+          <div class="hero-main"><div class="hero-badge"><svg><use href="#i-spark"/></svg> SPRINT 02 · EN MARCHA</div><h2>De la idea a<br><em>la acción.</em></h2><p>Cada pequeño avance cuenta. ¡Vamos a por ello!</p><div class="hero-line-art hero-line-one"></div><div class="hero-line-art hero-line-two"></div></div>
           <div class="hero-stats">
             <div class="stats-top"><span>PROGRESO DEL SPRINT</span><span id="progressPercent">0%</span></div>
             <div class="hero-progress"><div id="heroProgress" style="width:0%"></div></div>
-            <div class="stat-pair"><div><strong id="statDone">00<span class="stat-total">/15</span></strong><span>Tareas finalizadas</span></div><div><strong id="statHours">00<span class="stat-suffix"> h</span></strong><span>Horas completadas</span></div></div>
+            <div class="stat-pair"><div><strong id="statDone">00<span class="stat-total">/5</span></strong><span>Tareas finalizadas</span></div><div><strong id="statHours">00<span class="stat-suffix"> h</span></strong><span>Horas completadas</span></div></div>
             <div class="stat-footnote"><span class="tiny-star">✦</span> ¡Cada tarea suma!</div>
           </div>
         </section>
 
         <section class="board-area">
-          <div class="board-header"><div><div class="section-kicker">EL TRABAJO EN MOVIMIENTO</div><h2 id="viewTitle">Tablero de tareas <span id="totalTasksLabel">(15)</span></h2></div><div class="board-tools"><button class="secondary-button" id="connectButton"><svg><use href="#i-link"/></svg><span id="connectButtonLabel">Activar colaboración</span></button><button class="primary-button" id="shareButton"><svg><use href="#i-share"/></svg> Compartir tablero</button></div></div>
+          <div class="board-header"><div><div class="section-kicker">EL TRABAJO EN MOVIMIENTO</div><h2 id="viewTitle">Tablero de tareas <span id="totalTasksLabel">(5)</span></h2></div><div class="board-tools"><button class="secondary-button" id="connectButton"><svg><use href="#i-link"/></svg><span id="connectButtonLabel">Activar colaboración</span></button><button class="primary-button" id="shareButton"><svg><use href="#i-share"/></svg> Compartir tablero</button></div></div>
           <div class="cloud-notice" id="cloudNotice"><span class="notice-icon">✦</span><span><strong>Modo de prueba:</strong> puedes mover, editar y asignar tareas. Los cambios se guardan en este navegador. Para que todos vean lo mismo, activa la colaboración.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button></div>
-          <div class="filters"><label class="search-box"><svg><use href="#i-search"/></svg><input id="searchInput" type="search" placeholder="Buscar tarea, código, descripción..." autocomplete="off"><kbd>⌕</kbd></label><label class="filter-group">Módulo <select id="moduleFilter"><option value="">Todos los módulos</option><option value="MP06">MP06</option><option value="MP07">MP07</option><option value="MP08">MP08</option><option value="MP09">MP09</option></select></label><label class="filter-group">Responsable <select id="ownerFilter"><option value="">Todos</option></select></label><span class="auto-sync" id="syncLabel">Guardado local</span></div>
+          <div class="filters"><label class="filter-group">Sprint <select id="sprintFilter" aria-label="Filtrar por sprint"><option value="2">Sprint 02 · Actual</option><option value="1">Sprint 01 · Anterior</option><option value="all">Todos los sprints</option></select></label><label class="search-box"><svg><use href="#i-search"/></svg><input id="searchInput" type="search" placeholder="Buscar tarea, código, descripción..." autocomplete="off"><kbd>⌕</kbd></label><label class="filter-group">Módulo <select id="moduleFilter"><option value="">Todos los módulos</option><option value="MP06">MP06</option><option value="MP07">MP07</option><option value="MP08">MP08</option><option value="MP09">MP09</option></select></label><label class="filter-group">Responsable <select id="ownerFilter"><option value="">Todos</option></select></label><span class="auto-sync" id="syncLabel">Guardado local</span></div>
           <div class="kanban" id="kanbanBoard" aria-live="polite"></div>
           <div class="list-view" id="listView" hidden></div>
-          <footer class="board-footer"><span>✦ ALTEA <span class="footer-muted">/ Built for better teamwork</span></span><span id="footerStatus">15 tareas · 0 completadas</span></footer>
+          <footer class="board-footer"><span>✦ ALTEA <span class="footer-muted">/ Built for better teamwork</span></span><span id="footerStatus">5 tareas · 0 completadas</span></footer>
         </section>
       </div>
     </main>
