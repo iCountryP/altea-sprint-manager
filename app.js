@@ -33,7 +33,7 @@
   const state = {
     tasks: initialLocal(), mode: 'demo', online: false, connection: restoreConnection(),
     actor: localStorage.getItem(STORAGE_NAME) || '',
-    view: 'board', query: '', module: '', owner: '', editingCode: null,
+    view: 'board', query: '', module: '', owner: '', sprint: '2', editingCode: null,
     saving: false, polling: false, dragCode: null, noticeDismissed: false
   };
   let toastTimeout;
@@ -47,6 +47,9 @@
   function selectedTasks() {
     const query = state.query.trim().toLocaleLowerCase();
     return state.tasks.filter(task => {
+      const code = Number(task.code);
+      if (state.sprint === '2' && code < 16) return false;
+      if (state.sprint === '1' && code >= 16) return false;
       if (state.module && !(task.modules || []).includes(state.module)) return false;
       if (state.owner && (task.owner || '') !== state.owner) return false;
       return !query || [task.code, task.category, task.title, task.description, task.owner, task.notes]
@@ -118,16 +121,17 @@
     $('ownerSuggestions').innerHTML = owners.map(name=>`<option value="${safe(name)}"></option>`).join('');
   }
   function renderSummary() {
-    const done = taskCount('done'); const count = state.tasks.length;
+    const scoped = state.sprint === 'all' ? state.tasks : state.tasks.filter(t => state.sprint === '2' ? Number(t.code) >= 16 : Number(t.code) < 16);
+    const done = scoped.filter(t => t.status === 'done').length; const count = scoped.length;
     const percentage = count ? Math.round(100*done/count) : 0;
-    const totalHours = state.tasks.filter(t=>t.status==='done').reduce((sum,t)=>sum+(Number(t.hours)||0),0);
+    const totalHours = scoped.filter(t=>t.status==='done').reduce((sum,t)=>sum+(Number(t.hours)||0),0);
     $('progressPercent').textContent = `${percentage}%`;
     $('heroProgress').style.width = `${percentage}%`; $('sideProgress').style.width = `${percentage}%`;
     $('sideCount').textContent = `${done} de ${count} tareas`;
     $('statDone').innerHTML = `${String(done).padStart(2,'0')}<span class="stat-total">/${count}</span>`;
     $('statHours').innerHTML = `${String(totalHours).padStart(2,'0')}<span class="stat-suffix"> h</span>`;
     $('totalTasksLabel').textContent = `(${count})`;
-    $('footerStatus').textContent = `${count} tareas · ${done} completadas · ${state.tasks.reduce((sum,t)=>sum+(Number(t.hours)||0),0)} h estimadas`;
+    $('footerStatus').textContent = `${count} tareas en la vista · ${done} completadas · ${scoped.reduce((sum,t)=>sum+(Number(t.hours)||0),0)} h estimadas`;
     const owners = ownerNames();
     $('teamCount').textContent = `${owners.length} responsable${owners.length===1?'':'s'}`;
     $('teamAvatars').innerHTML = owners.length ? owners.slice(0,5).map(name=>`<span class="team-avatar" title="${safe(name)}">${safe(name.charAt(0).toUpperCase())}</span>`).join('') : '<span class="team-avatar">A</span>';
@@ -150,7 +154,7 @@
   function render() {
     renderSummary(); renderFilterOptions(); renderConnection();
     const isList = state.view === 'list'; $('listView').hidden = !isList; $('kanbanBoard').hidden = isList;
-    $('viewTitle').innerHTML = `${isList ? 'Listado de tareas' : 'Tablero de tareas'} <span id="totalTasksLabel">(${state.tasks.length})</span>`;
+    $('viewTitle').innerHTML = `${isList ? 'Listado de tareas' : 'Tablero de tareas'} <span id="totalTasksLabel">(${state.sprint === 'all' ? state.tasks.length : state.tasks.filter(t=>state.sprint==='2' ? Number(t.code)>=16 : Number(t.code)<16).length})</span>`;
     $('navBoard').classList.toggle('selected', !isList); $('navList').classList.toggle('selected', isList);
     renderBoard(); renderList();
   }
@@ -284,6 +288,7 @@
   // Events
   $('searchInput').addEventListener('input',ev=>{state.query=ev.target.value;renderBoard();renderList();});
   $('moduleFilter').addEventListener('change',ev=>{state.module=ev.target.value;renderBoard();renderList();});
+  $('sprintFilter').addEventListener('change',ev=>{state.sprint=ev.target.value;render();});
   $('ownerFilter').addEventListener('change',ev=>{state.owner=ev.target.value;renderBoard();renderList();});
   $('navBoard').addEventListener('click',ev=>{ev.preventDefault();setView('board');});
   $('navList').addEventListener('click',()=>setView('list'));
