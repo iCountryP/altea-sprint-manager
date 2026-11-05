@@ -33,7 +33,7 @@
   const state = {
     tasks: initialLocal(), mode: 'demo', online: false, connection: restoreConnection(),
     actor: localStorage.getItem(STORAGE_NAME) || '',
-    view: 'board', query: '', module: '', owner: '', sprint: 'all', editingCode: null,
+    view: 'board', query: '', module: '', owner: '', sprint: '2', editingCode: null,
     saving: false, polling: false, dragCode: null, noticeDismissed: false
   };
   let toastTimeout;
@@ -120,6 +120,35 @@
     if (owners.includes(current)) select.value = current; else { select.value = ''; state.owner = ''; }
     $('ownerSuggestions').innerHTML = owners.map(name=>`<option value="${safe(name)}"></option>`).join('');
   }
+  function renderSprintNavigation() {
+    const definitions = {
+      '1': {name:'Sprint 01',label:'SPRINT ANTERIOR',badge:'01',title:'Primera entrega',description:'Configuración, servidor y primeras pantallas.',hero:'SPRINT 01 · PRIMERA FASE',context:'Primera fase del proyecto. Las tareas pendientes y en testing conservan su estado.'},
+      '2': {name:'Sprint 02',label:'SPRINT ACTUAL',badge:'02',title:'Segona entrega',description:'Base de dades, migració, mapa i entrades.',hero:'SPRINT 02 · EN MARCHA',context:'Segunda fase del proyecto. Puedes consultar el Sprint 01 desde el menú lateral.'},
+      all: {name:'Todos los sprints',label:'VISIÓN GENERAL',badge:'01 + 02',title:'Proyecto ALTEA',description:'Resumen de la primera y segunda fase.',hero:'ALTEA · TODOS LOS SPRINTS',context:'Vista general de las dos fases del proyecto.'}
+    };
+    const selected = definitions[state.sprint] || definitions['2'];
+    $('sidebarSprintLabel').textContent=selected.label;
+    $('sidebarSprintBadge').textContent=selected.badge;
+    $('sidebarSprintTitle').textContent=selected.title;
+    $('sidebarSprintDescription').textContent=selected.description;
+    $('sprintBreadcrumb').textContent='ALTEA / '+selected.name;
+    $('sprintHeroLabel').textContent=selected.hero;
+    $('boardContext').textContent=selected.context;
+    $('progressTitle').textContent=state.sprint==='all' ? 'PROGRESO GLOBAL' : 'PROGRESO DEL '+selected.name.toUpperCase();
+    for(const key of ['1','2','all']) {
+      const element=$('navSprint'+(key==='all'?'All':key));
+      element.classList.toggle('active',state.sprint===key);
+      element.setAttribute('aria-pressed',String(state.sprint===key));
+    }
+    const sprint1=state.tasks.filter(t=>Number(t.code)<16);
+    const sprint2=state.tasks.filter(t=>Number(t.code)>=16);
+    $('sprint1Count').textContent=sprint1.length;
+    $('sprint2Count').textContent=sprint2.length;
+    $('sprintAllCount').textContent=state.tasks.length;
+    $('sprint1Sub').textContent=sprint1.filter(t=>t.status!=='done').length+' pendientes · fase anterior';
+    $('sprint2Sub').textContent=sprint2.filter(t=>t.status==='done').length+' de '+sprint2.length+' completadas';
+    $('sprintAllSub').textContent=state.tasks.length+' tareas · visión general';
+  }
   function renderSummary() {
     const scoped = state.sprint === 'all' ? state.tasks : state.tasks.filter(t => state.sprint === '2' ? Number(t.code) >= 16 : Number(t.code) < 16);
     const done = scoped.filter(t => t.status === 'done').length; const count = scoped.length;
@@ -153,7 +182,7 @@
     $('noticeDismiss').addEventListener('click', () => { state.noticeDismissed = true; notice.hidden=true; });
   }
   function render() {
-    renderSummary(); renderFilterOptions(); renderConnection();
+    renderSummary(); renderSprintNavigation(); renderFilterOptions(); renderConnection();
     const isList = state.view === 'list'; $('listView').hidden = !isList; $('kanbanBoard').hidden = isList;
     $('viewTitle').innerHTML = `${isList ? 'Listado de tareas' : 'Tablero de tareas'} <span id="totalTasksLabel">(${state.sprint === 'all' ? state.tasks.length : state.tasks.filter(t=>state.sprint==='2' ? Number(t.code)>=16 : Number(t.code)<16).length})</span>`;
     $('navBoard').classList.toggle('selected', !isList); $('navList').classList.toggle('selected', isList);
@@ -289,7 +318,12 @@
   // Events
   $('searchInput').addEventListener('input',ev=>{state.query=ev.target.value;renderBoard();renderList();});
   $('moduleFilter').addEventListener('change',ev=>{state.module=ev.target.value;renderBoard();renderList();});
-  $('sprintFilter').addEventListener('change',ev=>{state.sprint=ev.target.value;render();});
+  document.querySelectorAll('.sprint-entry').forEach(button=>button.addEventListener('click',()=>{
+    state.sprint=button.dataset.sprint;
+    state.query='';state.module='';state.owner='';
+    $('searchInput').value='';$('moduleFilter').value='';$('ownerFilter').value='';
+    state.view='board';render();
+  }));
   $('ownerFilter').addEventListener('change',ev=>{state.owner=ev.target.value;renderBoard();renderList();});
   $('navBoard').addEventListener('click',ev=>{ev.preventDefault();setView('board');});
   $('navList').addEventListener('click',()=>setView('list'));
