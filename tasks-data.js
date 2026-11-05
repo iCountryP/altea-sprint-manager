@@ -256,6 +256,93 @@ window.ALTEA_SEED = [
     "notes": "",
     "updated_by": "",
     "updated_at": null
+  },
+  {
+    "code": "16",
+    "category": "MOTILLA",
+    "title": "MOTILLA #2",
+    "description": "Segona motilla del projecte. El professor no ha proporcionat més indicacions en l’enunciat.",
+    "hours": 4,
+    "modules": [
+      "MP06",
+      "MP07",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "17",
+    "category": "SRV",
+    "title": "Disseny i implementació de la base de dades",
+    "description": "Dissenyar i implementar la base de dades del servidor i documentar-ne el diagrama a la wiki. Les entrades numerades han de permetre diversos espais i zones rectangulars definides per files i seients, i cal registrar l’estat de les reserves. ABANS d’implementar la BD, enviar el disseny al professor perquè el validi.",
+    "hours": 3,
+    "modules": [
+      "MP06"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "18",
+    "category": "SRV",
+    "title": "Migració del catàleg XML i de les connexions a BD",
+    "description": "Migrar les dades del catàleg XML a la base de dades i adaptar les connexions del servidor. La migració s’ha d’integrar amb el disseny validat a la tasca #17.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "19",
+    "category": "DESKTOP",
+    "title": "Mapa del recinte i estat de les butaques",
+    "description": "Representar gràficament el recinte amb els seients lliures i venuts, i l’ocupació de cada zona respecte de l’aforament. Des de qualsevol seient venut s’ha de poder obrir el detall de la venda. Afegir dades de prova amb butaques venudes.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP07"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "20",
+    "category": "APP + SRV",
+    "title": "Les meves entrades: recuperar i mostrar les compres",
+    "description": "Implementar la vista «Les meves entrades», recuperant del servidor les entrades del comprador. Cada entrada ha de mostrar l’esdeveniment, el tipus d’entrada, el seient (si en té) i el titular.",
+    "hours": 2,
+    "modules": [
+      "MP06",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
   }
 ];
 
