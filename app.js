@@ -33,7 +33,7 @@
   const state = {
     tasks: initialLocal(), mode: 'demo', online: false, connection: restoreConnection(),
     actor: localStorage.getItem(STORAGE_NAME) || '',
-    view: 'board', query: '', module: '', owner: '', sprint: '2', editingCode: null,
+    view: 'board', query: '', module: '', owner: '', sprint: '3', editingCode: null,
     saving: false, polling: false, dragCode: null, noticeDismissed: false
   };
   let toastTimeout;
@@ -48,8 +48,9 @@
     const query = state.query.trim().toLocaleLowerCase();
     return state.tasks.filter(task => {
       const code = Number(task.code);
-      if (state.sprint === '2' && code < 16) return false;
-      if (state.sprint === '1' && code >= 16) return false;
+      if (state.sprint === '3' && (code < 21 || code > 29)) return false;
+      if (state.sprint === '2' && (code < 16 || code > 20)) return false;
+      if (state.sprint === '1' && (code < 1 || code > 15)) return false;
       if (state.module && !(task.modules || []).includes(state.module)) return false;
       if (state.owner && (task.owner || '') !== state.owner) return false;
       return !query || [task.code, task.category, task.title, task.description, task.owner, task.notes]
@@ -123,10 +124,11 @@
   function renderSprintNavigation() {
     const definitions = {
       '1': {name:'Sprint 01',label:'SPRINT ANTERIOR',badge:'01',title:'Primera entrega',description:'Configuración, servidor y primeras pantallas.',hero:'SPRINT 01 · PRIMERA FASE',context:'Primera fase del proyecto. Las tareas pendientes y en testing conservan su estado.'},
-      '2': {name:'Sprint 02',label:'SPRINT ACTUAL',badge:'02',title:'Segona entrega',description:'Base de dades, migració, mapa i entrades.',hero:'SPRINT 02 · EN MARCHA',context:'Segunda fase del proyecto. Puedes consultar el Sprint 01 desde el menú lateral.'},
-      all: {name:'Todos los sprints',label:'VISIÓN GENERAL',badge:'01 + 02',title:'Proyecto ALTEA',description:'Resumen de la primera y segunda fase.',hero:'ALTEA · TODOS LOS SPRINTS',context:'Vista general de las dos fases del proyecto.'}
+      '2': {name:'Sprint 02',label:'SPRINT ANTERIOR',badge:'02',title:'Segona entrega',description:'Base de dades, migració, mapa i entrades.',hero:'SPRINT 02 · SEGONA FASE',context:'Segunda fase del proyecto. Los estados, responsables y notas se mantienen.'},
+      '3': {name:'Sprint 03',label:'SPRINT ACTUAL',badge:'03',title:'Tercera entrega',description:'11–18 novembre 2026 · Seients, compres, accés i vídeo.',hero:'SPRINT 03 · EN MARCHA',context:'11–18 de noviembre de 2026 · 9 tareas · 24 horas estimadas. Los anteriores sprints permanecen disponibles.'},
+      all: {name:'Todos los sprints',label:'VISIÓN GENERAL',badge:'01–03',title:'Proyecto ALTEA',description:'Resumen de las tres fases del proyecto.',hero:'ALTEA · TODOS LOS SPRINTS',context:'Vista general de los tres sprints del proyecto.'}
     };
-    const selected = definitions[state.sprint] || definitions['2'];
+    const selected = definitions[state.sprint] || definitions['3'];
     $('sidebarSprintLabel').textContent=selected.label;
     $('sidebarSprintBadge').textContent=selected.badge;
     $('sidebarSprintTitle').textContent=selected.title;
@@ -135,22 +137,25 @@
     $('sprintHeroLabel').textContent=selected.hero;
     $('boardContext').textContent=selected.context;
     $('progressTitle').textContent=state.sprint==='all' ? 'PROGRESO GLOBAL' : 'PROGRESO DEL '+selected.name.toUpperCase();
-    for(const key of ['1','2','all']) {
+    for(const key of ['1','2','3','all']) {
       const element=$('navSprint'+(key==='all'?'All':key));
       element.classList.toggle('active',state.sprint===key);
       element.setAttribute('aria-pressed',String(state.sprint===key));
     }
-    const sprint1=state.tasks.filter(t=>Number(t.code)<16);
-    const sprint2=state.tasks.filter(t=>Number(t.code)>=16);
+    const sprint1=state.tasks.filter(t=>Number(t.code)>=1 && Number(t.code)<=15);
+    const sprint2=state.tasks.filter(t=>Number(t.code)>=16 && Number(t.code)<=20);
+    const sprint3=state.tasks.filter(t=>Number(t.code)>=21 && Number(t.code)<=29);
     $('sprint1Count').textContent=sprint1.length;
     $('sprint2Count').textContent=sprint2.length;
+    $('sprint3Count').textContent=sprint3.length;
     $('sprintAllCount').textContent=state.tasks.length;
     $('sprint1Sub').textContent=sprint1.filter(t=>t.status!=='done').length+' pendientes · fase anterior';
-    $('sprint2Sub').textContent=sprint2.filter(t=>t.status==='done').length+' de '+sprint2.length+' completadas';
+    $('sprint2Sub').textContent=sprint2.filter(t=>t.status!=='done').length+' pendientes · fase anterior';
+    $('sprint3Sub').textContent=sprint3.filter(t=>t.status==='done').length+' de '+sprint3.length+' completadas · 11–18 nov';
     $('sprintAllSub').textContent=state.tasks.length+' tareas · visión general';
   }
   function renderSummary() {
-    const scoped = state.sprint === 'all' ? state.tasks : state.tasks.filter(t => state.sprint === '2' ? Number(t.code) >= 16 : Number(t.code) < 16);
+    const scoped = state.sprint === 'all' ? state.tasks : state.tasks.filter(t => state.sprint === '3' ? Number(t.code)>=21 && Number(t.code)<=29 : state.sprint === '2' ? Number(t.code)>=16 && Number(t.code)<=20 : Number(t.code)>=1 && Number(t.code)<=15);
     const done = scoped.filter(t => t.status === 'done').length; const count = scoped.length;
     const percentage = count ? Math.round(100*done/count) : 0;
     const totalHours = scoped.filter(t=>t.status==='done').reduce((sum,t)=>sum+(Number(t.hours)||0),0);
@@ -174,7 +179,8 @@
     $('syncLabel').textContent = state.mode==='demo' ? 'Guardado local' : state.online ? 'Sincroniza cada 8 s' : 'Conexión interrumpida';
     const notice = $('cloudNotice'); notice.classList.toggle('online', state.mode==='cloud' && state.online);
     notice.classList.toggle('error', state.mode==='cloud' && !state.online);
-    if (state.mode==='cloud' && state.online && !state.tasks.some(t=>String(t.code)==='20')) notice.innerHTML = `<span class="notice-icon">!</span><span><strong>Sprint 02 pendiente de activar en Supabase.</strong> Ejecuta <code>supabase/sprint-2.sql</code> una sola vez en SQL Editor. Las tareas existentes no se modificarán.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
+    if (state.mode==='cloud' && state.online && !state.tasks.some(t=>String(t.code)==='29') && state.tasks.some(t=>String(t.code)==='20')) notice.innerHTML = `<span class="notice-icon">!</span><span><strong>Sprint 03 pendiente de activar en Supabase.</strong> Ejecuta <code>supabase/sprint-3.sql</code> en SQL Editor para añadir las tareas #21–#29 sin modificar los sprints anteriores.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
+    else if (state.mode==='cloud' && state.online && !state.tasks.some(t=>String(t.code)==='20')) notice.innerHTML = `<span class="notice-icon">!</span><span><strong>Sprint 02 pendiente de activar en Supabase.</strong> Ejecuta <code>supabase/sprint-2.sql</code> una sola vez en SQL Editor. Las tareas existentes no se modificarán.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
     else if (state.mode==='cloud' && state.online) notice.innerHTML = `<span class="notice-icon">✓</span><span><strong>Tablero compartido activo.</strong> Los cambios se guardan en la nube y el resto del equipo los recibe automáticamente en unos segundos.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
     else if (state.mode==='cloud') notice.innerHTML = `<span class="notice-icon">!</span><span><strong>No se puede acceder al tablero.</strong> Comprueba la conexión y la clave. Por seguridad, la edición está bloqueada mientras no haya conexión.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
     else notice.innerHTML = `<span class="notice-icon">✦</span><span><strong>Modo de prueba:</strong> puedes mover, editar y asignar tareas. Los cambios se guardan en este navegador. Para que todos vean lo mismo, activa la colaboración.</span><button id="noticeDismiss" title="Cerrar aviso" aria-label="Cerrar aviso">×</button>`;
@@ -184,7 +190,7 @@
   function render() {
     renderSummary(); renderSprintNavigation(); renderFilterOptions(); renderConnection();
     const isList = state.view === 'list'; $('listView').hidden = !isList; $('kanbanBoard').hidden = isList;
-    $('viewTitle').innerHTML = `${isList ? 'Listado de tareas' : 'Tablero de tareas'} <span id="totalTasksLabel">(${state.sprint === 'all' ? state.tasks.length : state.tasks.filter(t=>state.sprint==='2' ? Number(t.code)>=16 : Number(t.code)<16).length})</span>`;
+    $('viewTitle').innerHTML = `${isList ? 'Listado de tareas' : 'Tablero de tareas'} <span id="totalTasksLabel">(${state.sprint === 'all' ? state.tasks.length : state.tasks.filter(t=>state.sprint==='3' ? Number(t.code)>=21 && Number(t.code)<=29 : state.sprint==='2' ? Number(t.code)>=16 && Number(t.code)<=20 : Number(t.code)>=1 && Number(t.code)<=15).length})</span>`;
     $('navBoard').classList.toggle('selected', !isList); $('navList').classList.toggle('selected', isList);
     renderBoard(); renderList();
   }
