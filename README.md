@@ -1,8 +1,17 @@
 # 🎟️ ALTEA · Sprint Manager
 
-Tablero Kanban del Sprint 1 con las **15 tareas originales** del proyecto de DAM. Puedes abrirlo desde `index.html` y utilizarlo sin instalar nada.
+Tablero Kanban de los **Sprints 1, 2 y 3 (29 tareas)** del proyecto de DAM. Puedes abrirlo desde `index.html` y utilizarlo sin instalar nada.
 
 ![ALTEA](assets/favicon.svg)
+
+## Sprint 3 (11–18 de noviembre de 2026)
+
+- **9 tareas nuevas (#21–#29)** y **24 horas estimadas**.
+- Distribución indicada por el profesor: MP06 7 specs / 21 h; MP07 5 specs / 16 h; MP08 6 specs / 16 h; MP09 7 specs / 21 h. Estas horas se solapan entre módulos y **no deben sumarse** para obtener las 24 horas del sprint.
+- Seleccionado de inicio en la barra lateral. Sprint 01, Sprint 02 y vista global permanecen accesibles.
+- **Importante:** quienes utilicen Supabase deben ejecutar [`supabase/sprint-3.sql`](supabase/sprint-3.sql) una vez en **Supabase → SQL Editor**. No requiere contraseña del tablero ni introduce claves nuevas. La migración es idempotente (`on conflict do nothing`) y **no cambia estados, responsables, notas ni tareas anteriores**.
+- Una vez ejecutada, la comprobación SQL debe mostrar `sprint_3 = 9`, `hores_sprint_3 = 24` y, si estaban los dos sprints anteriores, `total_tasques = 29`.
+- No vuelvas a ejecutar `supabase/setup.sql` para añadir el Sprint 3: se usa solamente `supabase/sprint-3.sql`.
 
 ## Funciones
 
