@@ -137,6 +137,7 @@
     $('sprintHeroLabel').textContent=selected.hero;
     $('boardContext').textContent=selected.context;
     $('progressTitle').textContent=state.sprint==='all' ? 'PROGRESO GLOBAL' : 'PROGRESO DEL '+selected.name.toUpperCase();
+    $('sprint3Details').hidden = state.sprint !== '3';
     for(const key of ['1','2','3','all']) {
       const element=$('navSprint'+(key==='all'?'All':key));
       element.classList.toggle('active',state.sprint===key);
