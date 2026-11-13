@@ -1,4 +1,4 @@
-/* Tareas originales del Sprint 1 de ALTEA */
+/* Datos iniciales de ALTEA · Sprints 1, 2 y 3. Los datos compartidos se leen de Supabase. */
 window.ALTEA_SEED = [
   {
     "code": "01",
@@ -334,6 +334,166 @@ window.ALTEA_SEED = [
     "hours": 2,
     "modules": [
       "MP06",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "21",
+    "category": "MOTXILLA",
+    "title": "MOTXILLA #3",
+    "description": "Tercera motxilla del projecte. L'enunciat no inclou més indicacions.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP07",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "22",
+    "category": "APP + SRV",
+    "title": "Selecció de seients numerats per zona",
+    "description": "Per a un esdeveniment i un tipus d'entrada numerada, l'APP demana al servidor l'estat de les butaques i mostra la zona com una graella rectangular de files × seients. Diferenciar per colors les butaques lliures, venudes i seleccionades. Tocar una butaca lliure l'afegeix a la cistella i la destaca; tornar-la a tocar la desselecciona i la treu de la cistella.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "23",
+    "category": "APP + SRV",
+    "title": "Compra atòmica d'entrades numerades i generals",
+    "description": "El botó COMPRAR envia les butaques numerades seleccionades al servidor. El servidor registra la compra a la BD i assigna un localitzador únic a cada entrada. Garantir que una butaca no es vengui dues vegades i que cap tipus superi la seva quota. Si alguna entrada no està disponible, rebutjar tota la compra, indicar les butaques afectades i marcar-les amb error a la cistella. Incloure les entrades generals en la mateixa operació. Si la compra és correcta, mostrar els localitzadors i buidar les entrades comprades de la cistella.",
+    "hours": 2,
+    "modules": [
+      "MP06",
+      "MP08",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "24",
+    "category": "APP",
+    "title": "Configuració de servidor i dades del comprador",
+    "description": "Afegir un menú de configuració per modificar la URL del servidor i el nom del comprador, però no el correu electrònic. Les entrades ja comprades han de conservar el nom original de la compra.",
+    "hours": 1,
+    "modules": [
+      "MP08"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "25",
+    "category": "APP",
+    "title": "Cistella: quantitats d'entrades i eliminació",
+    "description": "Permetre augmentar o disminuir la quantitat de les entrades generals de la cistella. Quan una línia arriba a zero, demanar confirmació i eliminar-la. Les entrades numerades no tenen quantitat; es poden eliminar amb confirmació i han de deixar d'aparèixer seleccionades al mapa de butaques.",
+    "hours": 2,
+    "modules": [
+      "MP08"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "26",
+    "category": "SRV + DESKTOP",
+    "title": "Llistat cronològic d'entrades venudes",
+    "description": "Sota el mapa del recinte, mostrar per a l'esdeveniment seleccionat un llistat d'entrades venudes en ordre cronològic. Per cada entrada: data i hora de compra, localitzador, tipus, seient (si en té), nom del comprador i estat de l'entrada.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP07",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "27",
+    "category": "DESKTOP",
+    "title": "Configuració d'ubicació i servidor al DESKTOP",
+    "description": "Permetre canviar la ubicació (taquilla, porta, oficina) i la URL del servidor. En canviar la URL, connectar al servidor nou i informar de l'èxit o de l'error. Mostrar o amagar funcions segons la ubicació; en mode porta, només el validador. Desar els canvis a CONFIG.XML.",
+    "hours": 2,
+    "modules": [
+      "MP06",
+      "MP07",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "28",
+    "category": "SRV + DESKTOP",
+    "title": "Validació d'entrades per localitzador en mode porta",
+    "description": "Amb el DESKTOP configurat com a «porta», validar una entrada introduint el seu localitzador. El servidor comprova el codi, marca l'entrada com a validada i rebutja els codis inexistents o ja validats. Mostrar clarament si l'entrada és vàlida (titular, tipus i seient si n'hi ha) o el motiu del rebuig.",
+    "hours": 3,
+    "modules": [
+      "MP06",
+      "MP07",
+      "MP09"
+    ],
+    "status": "todo",
+    "owner": "",
+    "priority": "normal",
+    "notes": "",
+    "updated_by": "",
+    "updated_at": null
+  },
+  {
+    "code": "29",
+    "category": "VÍDEO",
+    "title": "Vídeo de presentació del projecte a YouTube",
+    "description": "Gravar i publicar a YouTube un vídeo de presentació del projecte ALTEA. Incloure l'enllaç al vídeo a la plataforma de gestió del projecte.",
+    "hours": 5,
+    "modules": [
+      "MP06",
+      "MP07",
       "MP08",
       "MP09"
     ],
